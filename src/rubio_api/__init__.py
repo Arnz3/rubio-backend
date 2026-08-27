@@ -1,2 +1,3 @@
-def main() -> None:
-    print("Hello from rubio-api!")
+from rubio_api.main import app
+
+__all__ = ["app"]

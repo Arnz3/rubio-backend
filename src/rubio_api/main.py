@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from rubio_api.config import settings
 
 from rubio_api.api import v1
+from rubio_api.api import health
 
 
 @asynccontextmanager
@@ -21,6 +22,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(v1.router, prefix="/v1")
+    app.include_router(health.router, prefix="/health")
 
     return app
 
