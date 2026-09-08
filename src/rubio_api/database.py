@@ -1,20 +1,19 @@
 """
 Database connection and session handling.
-Provides a database session to each request via ``Depends(get_db)``.
 ``Base`` is defined here so that all models share the same declarative base.
 """
 
-from collections.abc import AsyncGenerator
+from collections.abc import Generator
 
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 from rubio_api.config import settings
 
 Base = declarative_base()
 
-engine = create_async_engine(settings.database_url)
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+engine = create_engine(settings.database_url)
+session_maker = sessionmaker(engine, expire_on_commit=False)
 
-async def get_session() -> AsyncGenerator[AsyncSession]:
-    async with async_session_maker() as session:
+def get_session() -> Generator[Session]:
+    with session_maker() as session:
         yield session
