@@ -1,11 +1,19 @@
-from sqlalchemy import String, Column, Integer
+from __future__ import annotations
+
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 
 from rubio_api.database import Base
 
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, autoincrement="auto")
-    email = Column(String, nullable=False, unique=True)
-    name = Column(String, nullable=False)
-    hashed_password = Column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str]
+    hashed_password: Mapped[str]
+
+    owned_organizations: Mapped[list[Organization]] = relationship(
+        back_populates="owner"
+    )

@@ -6,10 +6,11 @@ Database connection and session handling.
 from collections.abc import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from sqlalchemy.orm import Session, DeclarativeBase, sessionmaker
 from rubio_api.config import settings
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 engine = create_engine(settings.database_url)
 session_maker = sessionmaker(engine, expire_on_commit=False)
