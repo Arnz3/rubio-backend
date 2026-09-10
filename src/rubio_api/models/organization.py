@@ -16,7 +16,7 @@ class Organization(Base):
 
     ### SOFT RELATIONS
     # many-to-one: the owner
-    owner: Mapped[User] = relationship(back_populates="owned_organisations")
+    owner: Mapped[User] = relationship(back_populates="owned_organizations")
 
     # one-to-many: events of organisation
     events: Mapped[list[Event]] = relationship(

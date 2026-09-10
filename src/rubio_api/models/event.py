@@ -18,3 +18,7 @@ class Event(Base):
 
     organizer: Mapped[Organization] = relationship(back_populates="events")
     
+    albums: Mapped[list[Album]] = relationship(
+        back_populates="event",
+        cascade="all, delete-orphan"
+    )
