@@ -18,7 +18,16 @@ async def get_events(session:sessionDep):
     return org_event.list_events(session)
 
 
+@router.get("/{event_id}", response_model=EventRead)
+async def get_event_by_id(event_id: int, session:sessionDep):
+    event = org_event.get_event_by_id(event_id, session)
+    if event is None:
+        raise HTTPException(status_code=404, detail="Event not found")
+    return event
+
+
 @router.post("/", response_model=EventRead, status_code=status.HTTP_201_CREATED)
 async def create_event(payload: EventCreate, session:sessionDep):
-    pass
+    return org_event.add_event(session, payload)
+
 

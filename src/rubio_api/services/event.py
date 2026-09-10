@@ -11,5 +11,16 @@ def list_events(session: Session) -> Sequence[Event]:
         select(Event)
     ).all()
 
-def add_event(session: Session, payload: EventCreate) -> EventRead:
-    pass
+
+def add_event(session: Session, payload: EventCreate) -> Event:
+    event = Event(**payload.model_dump())
+    session.add(event)
+    session.commit()
+    session.refresh(event)
+    return event
+
+
+def get_event_by_id(event_id: int, session: Session) -> Event | None:
+    return session.scalar(
+        select(Event).where(Event.id == event_id)
+)
