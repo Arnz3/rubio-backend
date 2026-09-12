@@ -18,6 +18,11 @@ def get_user_by_email(session: Session, email: str) -> User | None:
         select(User).where(User.email == email)
     )
 
+def get_user_by_id(session: Session, user_id: int) -> User | None:
+    return session.scalar(
+        select(User).where(User.id == user_id)
+    )
+
 def add_user(session: Session, payload: UserCreate) -> User:
     user = User(
         email=payload.email,
@@ -28,3 +33,16 @@ def add_user(session: Session, payload: UserCreate) -> User:
     session.commit()
     session.refresh(user)
     return user
+
+
+def update_user(session: Session, payload:UserUpdate, user: User) -> User:
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(user, field, value)
+    session.commit()
+    session.refresh(user)
+    return user
+
+
+def delte_user(session: Session, user: User) -> None:
+    session.delete(user)
+    session.commit()

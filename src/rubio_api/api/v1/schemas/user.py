@@ -13,6 +13,5 @@ class UserRead(BaseModel):
     name: str
 
 class UserUpdate(BaseModel):
-    email: EmailStr | None
-    name: str | None
-    password: str | None
+    email: EmailStr | None = None
+    name: str | None = None
