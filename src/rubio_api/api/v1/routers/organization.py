@@ -21,7 +21,7 @@ async def get_organizations(session:sessionDep):
 async def get_org_by_id(org_id: int, session:sessionDep):
     org = org_service.get_organization_by_id(session, org_id)
     if org is None:
-        raise HTTPException(status_code=404, detail="Organization not Found")
+        raise HTTPException(status_code=404, detail="Organization not found")
     return org
 
 
